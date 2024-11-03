@@ -1,0 +1,19 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 12px;
+}
+
+.label {
+  display: grid;
+  place-content: center;
+  grid-row: span 2;
+  max-width: 30ch;
+}
