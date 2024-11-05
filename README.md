@@ -13,7 +13,7 @@ I also used a lot of useRef for watchers/signals.
 
 The only issue I found is to link the watcher `notify` function with the `onStoreChange` callback that `useSyncExternalStore` expects. I hacked a hook `useCallbacks` for this.
 
-## Alternatives
+## API
 
 I had a lot of alternatives for this API:
 
@@ -25,6 +25,14 @@ I had a lot of alternatives for this API:
 So 4 hooks were created:
 
 * `useStandaloneSignal`
-* `useStandaloneSync`
+* `useStandaloneRender`
 * `useContextualSignal`
-* `useContextualSync`
+* `useContextualRender`
+
+I also created an effect using the example from the proposal doc, and a React effect hook `useSignalEffect`
+
+```tsx
+useSignalEffect(() => {
+  console.log(counter.get())
+})
+```

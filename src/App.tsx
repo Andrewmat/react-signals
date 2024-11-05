@@ -1,7 +1,9 @@
 import { Signal } from 'signal-polyfill';
-import { useStandaloneSignal } from './signal-standalone';
+import { useStandaloneSignal, useStandaloneRender } from './signal-standalone';
 import { SignalWatcher } from './signal-watcher';
-import { useContextualSignal, useContextualSync } from './signal-contextual';
+import { useContextualSignal, useContextualRender } from './signal-contextual';
+import { useSignalEffect } from './signal-effect';
+import { useSignal } from './refs';
 import './App.css';
 
 function App() {
@@ -31,6 +33,13 @@ function App() {
           </details>
         </span>
         <ExternalCounter />
+
+        <span className="label">
+          <summary>Effect</summary>
+          <details>Effect</details>
+        </span>
+        <EffectCounter />
+        <EffectCounter />
       </SignalWatcher>
     </div>
   );
@@ -58,7 +67,7 @@ function ContextualCounter() {
 
 const externalCount = new Signal.State(0);
 function ExternalCounter() {
-  useContextualSync(externalCount);
+  useContextualRender(externalCount);
 
   return (
     <>
@@ -72,6 +81,25 @@ function SharedCounter({ count }: { count: Signal.State<number> }) {
   return (
     <button type="button" onClick={() => count.set(count.get() + 1)}>
       Count {count.get()}
+    </button>
+  );
+}
+
+function EffectCounter() {
+  const countSignal = useSignal(0);
+  useSignalEffect(() => {
+    console.log(
+      `internal: ${countSignal.get()} external: ${externalCount.get()}`
+    );
+  });
+  useStandaloneRender(countSignal);
+
+  return (
+    <button
+      type="button"
+      onClick={() => countSignal.set(countSignal.get() + 1)}
+    >
+      Count {countSignal.get()}
     </button>
   );
 }

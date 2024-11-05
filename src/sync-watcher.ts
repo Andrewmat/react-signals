@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { AnySignal } from './type';
 import type { Signal } from 'signal-polyfill';
 
-export function useSignalSync(
+export function useSignalRender(
   signal: AnySignal,
   watcher: Signal.subtle.Watcher,
   subscribe: (onStoreChange: () => void) => void
